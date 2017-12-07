@@ -28,15 +28,17 @@ module Mcoin
 
     def execute
       raise OptionParser::MissingArgument, :market if option.market.nil?
-      market.print
+      Printer.new(markets.map(&:fetch).map(&:to_ticker)).print
       # TODO: Provide general interface
-      market.save(option) if influxdb?
+      markets.map { |m| m.save(option) } if influxdb?
     end
 
-    def market
-      @market ||= Market
-                  .pick(option.market)
-                  .new(option.type, option.currency)
+    def markets
+      @markets ||= option.market.map do |name|
+        Market
+          .pick(name)
+          .new(option.type, option.currency)
+      end
     end
 
     def influxdb?
@@ -44,7 +46,13 @@ module Mcoin
     end
 
     def on(name, *args)
-      super(*args, ->(value) { option[name] = value })
+      if args.first == :multiple
+        args.shift
+        option[name] = [] unless option[name].is_a?(Array)
+        super(*args, ->(value) { option[name].push(value) })
+      else
+        super(*args, ->(value) { option[name] = value })
+      end
     end
 
     def separator(content = nil)
@@ -86,7 +94,7 @@ module Mcoin
          Mcoin::TYPES, "Available: #{Mcoin::TYPES.join(', ')}")
       on(:currency, '-c', '--currency CURRENCY',
          Mcoin::CURRENCY, "Available: #{Mcoin::CURRENCY.join(', ')}")
-      on(:market, '-m', '--market MARKET',
+      on(:market, :multiple, '-m', '--market MARKET',
          Mcoin::Market.available,
          "Available: #{Mcoin::Market.available.join(', ')}")
     end

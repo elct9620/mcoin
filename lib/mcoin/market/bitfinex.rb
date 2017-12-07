@@ -8,6 +8,7 @@ module Mcoin
       def to_ticker
         fetch
         Data::Ticker.new(
+          :Bitfinex,
           @type, @currency,
           last: @data['last_price'],
           ask: @data['ask'], bid: @data['bid'],

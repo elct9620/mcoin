@@ -2,10 +2,11 @@ module Mcoin
   module Data
     # :nodoc:
     class Ticker
-      attr_reader :type, :currency
+      attr_reader :market, :type, :currency
       attr_accessor :last, :ask, :bid, :low, :high, :volume
 
-      def initialize(type, currency, data = {})
+      def initialize(market, type, currency, data = {})
+        @market = market
         @type = type
         @currency = currency
         data.each do |key, value|
@@ -14,7 +15,7 @@ module Mcoin
       end
 
       def to_influx(tags = {}, values = {})
-        tags = { type: @type, currency: @currency }.merge(tags)
+        tags = { type: @type, currency: @currency, market: @market }.merge(tags)
         values = {
           last: @last,
           ask: @ask, bid: @bid,

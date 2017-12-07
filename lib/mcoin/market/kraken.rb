@@ -13,6 +13,7 @@ module Mcoin
       def to_ticker
         fetch
         Data::Ticker.new(
+          :Kraken,
           swap_btc(@type), @currency,
           last: @data['c'][0],
           ask: @data['a'][0], bid: @data['b'][0],
@@ -25,6 +26,7 @@ module Mcoin
         super
         return self if @data['result'].nil?
         @data = @data.dig('result', "X#{@type}Z#{@currency}")
+        self
       end
 
       def swap_btc(type)

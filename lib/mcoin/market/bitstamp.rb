@@ -8,6 +8,7 @@ module Mcoin
       def to_ticker
         fetch
         Data::Ticker.new(
+          :Bitstamp,
           @type, @currency,
           last: @data['last'],
           ask: @data['ask'], bid: @data['bid'],

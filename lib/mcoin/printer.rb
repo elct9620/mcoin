@@ -27,7 +27,7 @@ module Mcoin
     end
 
     def columns
-      %i[currency type last ask bid]
+      %i[market currency type last ask bid]
     end
   end
 end
