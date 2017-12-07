@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'pp'
 require 'net/http'
 
 module Mcoin
