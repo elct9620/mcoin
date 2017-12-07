@@ -10,7 +10,7 @@ module Mcoin
 
       attr_reader :option
 
-      usage 'Show market information'
+      description 'Show market information'
 
       def execute
         raise OptionParser::MissingArgument, :market if option.market.nil?

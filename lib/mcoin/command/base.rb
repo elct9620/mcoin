@@ -7,9 +7,9 @@ module Mcoin
       class << self
         attr_reader :options, :commands
 
-        def usage(description = nil)
-          return @usage if description.nil?
-          @usage = description
+        def description(description = nil)
+          return @description if description.nil?
+          @description = description
         end
 
         def option(mode, name, *args)

@@ -22,7 +22,7 @@ module Mcoin
       def print_commands
         Command.commands.each do |command|
           separator "    #{command.downcase}\t" \
-            "#{Command.const_get(command).usage}"
+            "#{Command.const_get(command).description}"
         end
       end
 
