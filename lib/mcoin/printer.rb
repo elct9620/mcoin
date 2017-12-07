@@ -5,13 +5,33 @@ module Mcoin
   class Printer
     def initialize(*rows)
       @rows = rows.flatten
+      @outputs = []
+
+      build
     end
 
     def print
-      puts row(columns.map(&:capitalize))
-      puts column_widths.map { |width| '-' * width }.join(' | ')
+      if @rows.empty?
+        puts 'No result found'
+      else
+        puts @outputs
+      end
+    end
+
+    def build
+      return if @rows.empty?
+      build_header
+      build_rows
+    end
+
+    def build_header
+      @outputs << row(columns.map(&:capitalize))
+      @outputs << column_widths.map { |width| '-' * width }.join(' | ')
+    end
+
+    def build_rows
       @rows.each do |row|
-        puts row(columns.map { |column| row.send(column) })
+        @outputs << row(columns.map { |column| row.send(column) })
       end
     end
 
@@ -29,6 +49,7 @@ module Mcoin
     end
 
     def columns
+      # TODO: Load from command
       %i[market currency type last ask bid]
     end
   end

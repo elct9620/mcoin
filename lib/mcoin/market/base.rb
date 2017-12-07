@@ -13,13 +13,6 @@ module Mcoin
         @currency = currency
       end
 
-      def print
-        fetch
-        puts '=== Result ==='
-        Printer.new(to_ticker).print
-        self
-      end
-
       def name
         self.class.name.split('::').last
       end
