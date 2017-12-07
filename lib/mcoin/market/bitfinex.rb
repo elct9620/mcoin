@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 module Mcoin
   module Market
     # :nodoc:
     class Bitfinex < Base
-      # rubocop:disable Metrics/LineLength
-      ENDPOINT = 'https://api.bitfinex.com/v1/pubticker/%<type>s%<currency>s'.freeze
+      ENDPOINT = 'https://api.bitfinex.com/v1/pubticker/%<type>s%<currency>s'
 
       def to_ticker
         fetch

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Mcoin
   module Market
     # :nodoc:
     class Kraken < Base
       # rubocop:disable Metrics/LineLength
-      ENDPOINT = 'https://api.kraken.com/0/public/Ticker?pair=%<type>s%<currency>s'.freeze
+      ENDPOINT = 'https://api.kraken.com/0/public/Ticker?pair=%<type>s%<currency>s'
 
       def initialize(type, currency)
         type = swap_btc(type)
