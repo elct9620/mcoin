@@ -18,10 +18,20 @@ module Mcoin
         self
       end
 
-      def save(_option)
+      def save(option)
         puts '=== InfluxDB ==='
-        puts 'Not support yet'
+        InfluxDB.new(
+          option.endpoint,
+          option.database,
+          option.username,
+          option.password
+        ).save([to_ticker.to_influx(market: name)])
+        puts 'Saved'
         self
+      end
+
+      def name
+        self.class.name.split('::').last
       end
 
       def fetch

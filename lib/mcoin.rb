@@ -9,4 +9,5 @@ module Mcoin
   autoload :Market, 'mcoin/market'
   autoload :Data, 'mcoin/data'
   autoload :Printer, 'mcoin/printer'
+  autoload :InfluxDB, 'mcoin/influx_db'
 end

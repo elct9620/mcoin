@@ -12,6 +12,18 @@ module Mcoin
           send("#{key}=", value)
         end
       end
+
+      def to_influx(tags = {}, values = {})
+        tags = { type: @type, currency: @currency }.merge(tags)
+        values = {
+          last: @last,
+          ask: @ask, bid: @bid,
+          low: @low, high: @high,
+          volume: @volume
+        }.merge(values)
+        "prices,#{tags.map { |t| t.join('=') }.join(',')} " \
+        "#{values.map { |v| v.join('=') }.join(',')}"
+      end
     end
   end
 end
