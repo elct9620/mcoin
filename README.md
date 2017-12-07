@@ -1,8 +1,6 @@
 # Mcoin
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/mcoin`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This is a side-project for me to monitor BTC/ETH. The target is create a helpful command line tool can run as cronjob to import data to InfluxDB and make some analytics.
 
 ## Installation
 
@@ -22,7 +20,29 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+To fetch ticker information, add with `-m` to specify market.
+
+```
+mcoin -m Bitfinex
+```
+
+If you want to save it into InfluxDB, add database information.
+
+```
+mcoin -m Bitfinex -d monitor -e http://localhsot:8086
+```
+
+To get more information please use `-h` option.
+
+## Roadmap
+
+* [x] Fetch ticker
+  * [ ] Fetch in parallels
+  * [x] Fetch from multiple market
+  * [ ] Fetch multiple coin type via specify `pair`
+* [ ] Support more public API command
+* [ ] Improve printer
+* [ ] Generalize database save interface
 
 ## Development
 
@@ -32,4 +52,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/mcoin.
+Bug reports and pull requests are welcome on GitHub at https://github.com/elct9620/mcoin.
