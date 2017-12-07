@@ -14,8 +14,13 @@ module Mcoin
 
       def execute
         raise OptionParser::MissingArgument, :market if option.market.nil?
-        Printer.new(markets.map(&:fetch).map(&:to_ticker)).print
+        print
         save if save?
+      end
+
+      def print
+        tickers = Parallel.map(markets, :fetch).map(&:to_ticker)
+        Printer.new(tickers).print
       end
 
       def save
