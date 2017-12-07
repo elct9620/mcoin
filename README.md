@@ -20,16 +20,19 @@ Or install it yourself as:
 
 ## Usage
 
-To fetch ticker information, add with `-m` to specify market.
+### Ticker
+
+Add `-m` to specify market name
 
 ```
-mcoin -m Bitfinex
+mcoin ticker -m Bitfinex
+mcoin ticker -m Bitfinex -m Kraken # Multiple
 ```
 
 If you want to save it into InfluxDB, add database information.
 
 ```
-mcoin -m Bitfinex -d monitor -e http://localhsot:8086
+mcoin ticker -m Bitfinex -d monitor -e http://localhsot:8086
 ```
 
 To get more information please use `-h` option.
@@ -37,7 +40,7 @@ To get more information please use `-h` option.
 ## Roadmap
 
 * [x] Fetch ticker
-  * [ ] Fetch in parallels
+  * [x] Fetch in parallels
   * [x] Fetch from multiple market
   * [ ] Fetch multiple coin type via specify `pair`
 * [ ] Support more public API command
