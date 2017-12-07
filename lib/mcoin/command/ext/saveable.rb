@@ -20,6 +20,15 @@ module Mcoin
       def save?
         option.endpoint && option.database
       end
+
+      def database
+        InfluxDB.new(
+          option.endpoint,
+          option.database,
+          option.username,
+          option.password
+        )
+      end
     end
   end
 end

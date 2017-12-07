@@ -15,8 +15,11 @@ module Mcoin
       def execute
         raise OptionParser::MissingArgument, :market if option.market.nil?
         Printer.new(markets.map(&:fetch).map(&:to_ticker)).print
-        # TODO: Provide general interface
-        markets.map { |m| m.save(option) } if save?
+        save if save?
+      end
+
+      def save
+        database.save(markets.map(&:to_ticker).map(&:to_influx))
       end
 
       def markets
