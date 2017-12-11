@@ -50,7 +50,7 @@ module Mcoin
 
     def columns
       # TODO: Load from command
-      %i[market currency type last ask bid]
+      %i[market currency type last ask bid time]
     end
   end
 end

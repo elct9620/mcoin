@@ -5,7 +5,7 @@ module Mcoin
     # :nodoc:
     class Ticker
       attr_reader :market, :type, :currency
-      attr_accessor :last, :ask, :bid, :low, :high, :volume
+      attr_accessor :last, :ask, :bid, :low, :high, :volume, :timestamp
 
       def initialize(market, type, currency, data = {})
         @market = market
@@ -16,16 +16,20 @@ module Mcoin
         end
       end
 
-      def to_influx(tags = {}, values = {})
-        tags = { type: @type, currency: @currency, market: @market }.merge(tags)
+      def time
+        (timestamp.to_f * (10**9)).to_i.to_s
+      end
+
+      def to_influx
+        tags = { type: @type, currency: @currency, market: @market }
         values = {
           last: @last,
           ask: @ask, bid: @bid,
           low: @low, high: @high,
           volume: @volume
-        }.merge(values)
+        }
         "prices,#{tags.map { |t| t.join('=') }.join(',')} " \
-        "#{values.map { |v| v.join('=') }.join(',')}"
+        "#{values.map { |v| v.join('=') }.join(',')} #{time}"
       end
     end
   end

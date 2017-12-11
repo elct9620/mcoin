@@ -20,7 +20,8 @@ module Mcoin
           last: @data['c'][0],
           ask: @data['a'][0], bid: @data['b'][0],
           low: @data['l'][1], high: @data['h'][1],
-          volume: @data['v'][1]
+          volume: @data['v'][1],
+          timestamp: Time.now.to_i
         )
       end
 

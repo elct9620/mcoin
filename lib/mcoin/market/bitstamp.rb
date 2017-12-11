@@ -14,7 +14,8 @@ module Mcoin
           last: @data['last'],
           ask: @data['ask'], bid: @data['bid'],
           low: @data['low'], high: @data['high'],
-          volume: @data['volume']
+          volume: @data['volume'],
+          timestamp: @data['timestamp']
         )
       end
     end
