@@ -17,7 +17,7 @@ module Mcoin
       end
 
       def time
-        (timestamp.to_f * (10**9)).to_i.to_s
+        Time.at(timestamp.to_i).to_s
       end
 
       def to_influx
@@ -29,7 +29,13 @@ module Mcoin
           volume: @volume
         }
         "prices,#{tags.map { |t| t.join('=') }.join(',')} " \
-        "#{values.map { |v| v.join('=') }.join(',')} #{time}"
+        "#{values.map { |v| v.join('=') }.join(',')} #{influx_time}"
+      end
+
+      private
+
+      def influx_time
+        (timestamp.to_f * (10**9)).to_i.to_s
       end
     end
   end

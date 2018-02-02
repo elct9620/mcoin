@@ -11,6 +11,7 @@ module Mcoin
       def initialize(type, currency)
         @type = type
         @currency = currency
+        @retries = 0
       end
 
       def name
@@ -20,6 +21,10 @@ module Mcoin
       def fetch
         @data ||= JSON.parse(Net::HTTP.get(uri))
         self
+      rescue JSON::ParserError
+        raise if @retries >= 3
+        @retries += 1
+        retry
       end
 
       def to_ticker
