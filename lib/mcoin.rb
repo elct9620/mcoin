@@ -13,4 +13,5 @@ module Mcoin
   autoload :Printer, 'mcoin/printer'
   autoload :Parallel, 'mcoin/parallel'
   autoload :InfluxDB, 'mcoin/influx_db'
+  autoload :Subscriber, 'mcoin/subscriber'
 end

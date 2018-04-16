@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mcoin (0.2.1)
+    mcoin (0.3.0)
 
 GEM
   remote: https://rubygems.org/
@@ -23,4 +23,4 @@ DEPENDENCIES
   rake (~> 10.0)
 
 BUNDLED WITH
-   1.16.0
+   1.16.1

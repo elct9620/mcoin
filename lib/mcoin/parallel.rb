@@ -9,6 +9,12 @@ module Mcoin
           Thread.new { item.send(method) }
         end.map(&:join).map(&:value)
       end
+
+      def async(array, method, &block)
+        array.each do |item|
+          Thread.new { yield item.send(method) }
+        end
+      end
     end
   end
 end

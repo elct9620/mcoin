@@ -37,6 +37,22 @@ mcoin ticker -m Bitfinex -d monitor -e http://localhsot:8086
 
 To get more information please use `-h` option.
 
+### Subscriber
+
+If you want to subscribe market in your project, you can use `Subscriber`
+
+```ruby
+require 'mcoin'
+
+# Leave blank to subscribe all available market
+subscriber = Mcoin::Subscriber.new([:Bitinfex], :BTC, :USD)
+subscriber.start do |ticker|
+  # Deal with Mcoin::Data::Ticker object
+end
+```
+
+Please note, the ticker is async pull data from market, the timestamp may not totally same when you receive it.
+
 ## Roadmap
 
 * [x] Fetch ticker
