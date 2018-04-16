@@ -58,7 +58,7 @@ Please note, the ticker is async pull data from market, the timestamp may not to
 * [x] Fetch ticker
   * [x] Fetch in parallels
   * [x] Fetch from multiple market
-  * [ ] Fetch multiple coin type via specify `pair`
+  * [x] Fetch multiple coin type via specify `pair`
 * [ ] Support more public API command
 * [ ] Improve printer
 * [ ] Generalize database save interface
