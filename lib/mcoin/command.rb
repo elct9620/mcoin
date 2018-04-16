@@ -12,7 +12,7 @@ module Mcoin
     autoload :Ticker, 'mcoin/command/ticker'
 
     autoload :HasMarket, 'mcoin/command/ext/has_market'
-    autoload :HasType, 'mcoin/command/ext/has_type'
+    autoload :HasPair, 'mcoin/command/ext/has_pair'
     autoload :Saveable, 'mcoin/command/ext/saveable'
 
     class << self

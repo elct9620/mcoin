@@ -5,7 +5,7 @@ module Mcoin
     # :nodoc:
     class Ticker < Base
       include HasMarket
-      include HasType
+      include HasPair
       include Saveable
 
       attr_reader :option
@@ -19,7 +19,7 @@ module Mcoin
       end
 
       def print
-        tickers = Parallel.map(markets, :fetch).map(&:to_ticker)
+        tickers = Parallel.map(markets, :fetch).compact.map(&:to_ticker)
         Printer.new(tickers).print
       end
 
@@ -29,9 +29,17 @@ module Mcoin
 
       def markets
         @markets ||= option.market.map do |name|
-          Market
-            .pick(name)
-            .new(option.type, option.currency)
+          pairs.map do |pair|
+            Market
+              .pick(name)
+              .new(*pair)
+          end
+        end.flatten
+      end
+
+      def pairs
+        @pairs ||= (option.pair || ['BTC-USD']).uniq.map do |pair|
+          pair.split('-').map(&:to_sym)
         end
       end
 
@@ -39,8 +47,7 @@ module Mcoin
 
       def prepare
         super
-        option.type = :BTC
-        option.currency = :USD
+        option.pair ||= []
       end
     end
   end

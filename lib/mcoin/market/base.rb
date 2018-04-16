@@ -22,7 +22,7 @@ module Mcoin
         @data ||= JSON.parse(Net::HTTP.get(uri))
         self
       rescue JSON::ParserError
-        raise if @retries >= 3
+        return nil if @retries >= 3
         @retries += 1
         retry
       end
