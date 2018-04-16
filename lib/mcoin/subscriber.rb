@@ -4,14 +4,14 @@ module Mcoin
   class Subscriber
     attr_reader :markets, :pairs
 
-    def initialize(pairs = [], market = Market.available)
+    def initialize(pairs = [], markets = Market.available)
       @pairs = pairs_from(pairs)
-      @markets = markets_from(market)
+      @markets = markets
     end
 
     def start(interval = 1, &block)
       loop do
-        Parallel.async(markets, :fetch) do |result|
+        Parallel.async(markets_from(markets), :fetch) do |result|
           yield result.to_ticker
         end
         sleep interval
@@ -27,7 +27,7 @@ module Mcoin
     end
 
     def markets_from(picked)
-      @markets ||= picked.map do |name|
+      picked.map do |name|
         pairs.map do |pair|
           Market
             .pick(name)
