@@ -45,7 +45,7 @@ If you want to subscribe market in your project, you can use `Subscriber`
 require 'mcoin'
 
 # Leave blank to subscribe all available market
-subscriber = Mcoin::Subscriber.new([:Bitinfex], :BTC, :USD)
+subscriber = Mcoin::Subscriber.new(['ETH-USD', 'BTC-USD'], [:Bitinfex])
 subscriber.start do |ticker|
   # Deal with Mcoin::Data::Ticker object
 end
