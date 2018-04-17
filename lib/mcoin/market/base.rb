@@ -2,6 +2,7 @@
 
 require 'pp'
 require 'json'
+require 'bigdecimal'
 require 'net/http'
 
 module Mcoin
@@ -19,7 +20,7 @@ module Mcoin
       end
 
       def fetch
-        @data ||= JSON.parse(Net::HTTP.get(uri))
+        @data ||= JSON.parse(Net::HTTP.get(uri), decimal_class: BigDecimal)
         self
       rescue JSON::ParserError
         return nil if @retries >= 3

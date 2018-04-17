@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'pp'
+require 'bigdecimal'
 require 'net/http'
 
 module Mcoin
@@ -19,7 +20,7 @@ module Mcoin
         http.request(req)
       end
 
-      pp JSON.parse(res.body) unless res.body.nil?
+      pp JSON.parse(res.body, decimal_class: BigDecimal) unless res.body.nil?
     end
 
     protected
