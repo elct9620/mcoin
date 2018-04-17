@@ -4,16 +4,20 @@ module Mcoin
   class Subscriber
     attr_reader :markets, :pairs
 
-    def initialize(pairs = [], markets = Market.available)
+    def initialize(pairs = nil, markets = Market.available)
       @pairs = pairs_from(pairs)
       @markets = markets
+      @queue = Queue.new
     end
 
     def start(interval = 1, &block)
       loop do
+        yield @queue.pop(true) until @queue.empty?
+
         Parallel.async(markets_from(markets), :fetch) do |result|
-          yield result.to_ticker
+          @queue << result.to_ticker
         end
+
         sleep interval
       end
     end
