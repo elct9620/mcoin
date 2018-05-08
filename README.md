@@ -1,6 +1,6 @@
 # Mcoin
 
-This is a side-project for me to monitor BTC/ETH. The target is create a helpful command line tool can run as cronjob to import data to InfluxDB and make some analytics.
+This is a side-project for me to monitor BTC/ETH. The target is to create a helpful command line tool that can run as a cronjob to import data to InfluxDB and do some analytics.
 
 ## Installation
 
@@ -32,7 +32,7 @@ mcoin ticker -m Bitfinex -m Kraken # Multiple
 If you want to save it into InfluxDB, add database information.
 
 ```
-mcoin ticker -m Bitfinex -d monitor -e http://localhsot:8086
+mcoin ticker -m Bitfinex -d monitor -e http://localhost:8086
 ```
 
 To get more information please use `-h` option.
@@ -51,7 +51,7 @@ subscriber.start do |ticker|
 end
 ```
 
-Please note, the ticker is async pull data from market, the timestamp may not totally same when you receive it.
+Please note, the ticker pulls data asynchronously from the market, so the timestamp may not be totally same when you receive it.
 
 ## Roadmap
 
