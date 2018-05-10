@@ -17,9 +17,9 @@ module Mcoin
         fetch
         Data::Ticker.new(
           :Zaif, swap_cms(@type), @currency,
-          last: @data['last'],
-          ask: @data['ask'], bid: @data['bid'],
-          high: @data['high'], low: @data['low'],
+          last: @data['last'].to_s,
+          ask: @data['ask'].to_s, bid: @data['bid'].to_s,
+          high: @data['high'].to_s, low: @data['low'].to_s,
           volume: @data['volume'],
           timestamp: Time.now.to_i
         )

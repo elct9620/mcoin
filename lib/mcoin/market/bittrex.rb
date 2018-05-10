@@ -18,9 +18,9 @@ module Mcoin
         response = @data['result'][0]
         Data::Ticker.new(
           :Bittrex, swap_bch(@type), @currency,
-          last: response['Last'],
-          ask:  response['Ask'],  bid:  response['Bid'],
-          low:  response['Low'],  high: response['High'],
+          last: response['Last'].to_s,
+          ask:  response['Ask'].to_s,  bid:  response['Bid'].to_s,
+          low:  response['Low'].to_s,  high: response['High'].to_s,
           volume:    response['Volume'],
           timestamp: Time.parse(response['TimeStamp']).to_f
         )

@@ -12,9 +12,9 @@ module Mcoin
         fetch
         Data::Ticker.new(
           :Bitflyer, @type, @currency,
-          last: @data['ltp'],
-          ask: @data['best_ask'], bid: @data['best_bid'],
-          low: @data['best_bid'], high: @data['best_ask'],
+          last: @data['ltp'].to_s,
+          ask: @data['best_ask'].to_s, bid: @data['best_bid'].to_s,
+          low: @data['best_bid'].to_s, high: @data['best_ask'].to_s,
           volume: @data['volume'], # Trading volume in 24 hours
           timestamp: Time.parse(@data['timestamp']).to_f
         )

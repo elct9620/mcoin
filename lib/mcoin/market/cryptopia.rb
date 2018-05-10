@@ -13,9 +13,9 @@ module Mcoin
         response = @data['Data']
         Data::Ticker.new(
           :Cryptopia, @type, @currency,
-          last: response['LastPrice'],
-          ask:  response['AskPrice'],  bid: response['BidPrice'],
-          high: response['High'], low: response['Low'],
+          last: response['LastPrice'].to_s,
+          ask:  response['AskPrice'].to_s,  bid: response['BidPrice'].to_s,
+          high: response['High'].to_s, low: response['Low'].to_s,
           volume: response['Volume'],
           timestamp: Time.now.utc.to_i
         )

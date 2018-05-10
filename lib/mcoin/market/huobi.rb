@@ -13,9 +13,9 @@ module Mcoin
         response = @data['tick']
         Data::Ticker.new(
           :Huobi, @type, @currency,
-          last: response['close'],
-          ask:  response['ask'][0], bid:  response['bid'][0],
-          low:  response['low'],  high: response['high'],
+          last: response['close'].to_s,
+          ask:  response['ask'][0].to_s, bid:  response['bid'][0].to_s,
+          low:  response['low'].to_s, high: response['high'].to_s,
           volume: response['vol'],
           timestamp: Time.now.utc.to_i
         )

@@ -13,10 +13,10 @@ module Mcoin
         response = @data['data']
         Data::Ticker.new(
           :Kucoin, @type, @currency,
-          last: response['lastDealPrice'],
-          ask:  response['sell'], bid:  response['buy'],
-          low:  response['low'],  high: response['high'],
-          volume: response['vol'],
+          last: response['lastDealPrice'].to_s,
+          ask:  response['sell'].to_s, bid:  response['buy'].to_s,
+          low:  response['low'].to_s,  high: response['high'].to_s,
+          volume: response['vol'].to_s,
           timestamp: @data['timestamp']
         )
       end
