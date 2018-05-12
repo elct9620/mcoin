@@ -18,7 +18,6 @@ module Mcoin
     autoload :Huobi, 'mcoin/market/huobi'
     autoload :Kucoin, 'mcoin/market/kucoin'
     autoload :Okex, 'mcoin/market/okex'
-    autoload :Quoinex, 'mcoin/market/quoinex'
     autoload :Zaif, 'mcoin/market/zaif'
 
     def self.pick(name)
