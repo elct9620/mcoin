@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'time'
-
 module Mcoin
   module Market
     # :nodoc:
