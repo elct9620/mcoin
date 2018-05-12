@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'time'
-
 module Mcoin
   module Market
     # :nodoc:
@@ -17,7 +15,7 @@ module Mcoin
           ask:  response['sell'].to_s, bid:  response['buy'].to_s,
           low:  response['low'].to_s,  high: response['high'].to_s,
           volume: response['vol'].to_s,
-          timestamp: @data['timestamp']
+          timestamp: @data['timestamp'] / 1000.to_f
         )
       end
     end
