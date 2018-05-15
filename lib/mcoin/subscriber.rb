@@ -12,7 +12,7 @@ module Mcoin
 
     def start(interval = 1, &block)
       loop do
-        yield @queue.pop(true) until @queue.empty?
+        Thread.new { yield @queue.pop(true) until @queue.empty? }
 
         Parallel.async(markets_from(markets), :fetch) do |result|
           @queue << result.to_ticker
