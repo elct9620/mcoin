@@ -19,7 +19,7 @@ module Mcoin
       end
 
       def print
-        tickers = Parallel.map(markets, :fetch).compact.map(&:to_ticker)
+        tickers = Parallel.map(markets, :fetch).compact.map(&:to_ticker).flatten
         Printer.new(tickers).print
       end
 
@@ -29,11 +29,11 @@ module Mcoin
 
       def markets
         @markets ||= option.market.map do |name|
+          market = Market.pick(name).new
           pairs.map do |pair|
-            Market
-              .pick(name)
-              .new(*pair)
+            market.watch(*pair)
           end
+          market
         end.flatten
       end
 
