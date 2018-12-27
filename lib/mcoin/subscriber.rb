@@ -6,16 +6,15 @@ module Mcoin
 
     def initialize(pairs = nil, markets = Market.available)
       @pairs = pairs_from(pairs)
-      @markets = markets
-      @queue = Queue.new
+      @markets = markets_from(markets)
     end
 
     def start(interval = 1, &block)
       loop do
-        Thread.new { yield @queue.pop(true) until @queue.empty? }
-
-        Parallel.async(markets_from(markets), :fetch) do |result|
-          @queue << result.to_ticker
+        Parallel.async(@markets, :fetch) do |result|
+          result.to_ticker.each do |ticker|
+            yield ticker
+          end
         end
 
         sleep interval
@@ -32,11 +31,11 @@ module Mcoin
 
     def markets_from(picked)
       picked.map do |name|
+        market = Market.pick(name).new
         pairs.map do |pair|
-          Market
-            .pick(name)
-            .new(*pair)
+          market.watch(*pair)
         end
+        market
       end.flatten
     end
   end
