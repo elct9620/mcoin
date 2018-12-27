@@ -6,32 +6,27 @@ module Mcoin
     class Zaif < Base
       ENDPOINT = 'https://api.zaif.jp/api/1/ticker/%<type>s_%<currency>s'
 
-      def initialize(type, currency)
-        type = swap_cms(type)
-        super
+      def watch(type, currency)
+        type = swap_cms(type.to_s.downcase)
+        @pairs.add({ type: type, currency: currency.to_s.downcase })
       end
 
-      def to_ticker
-        fetch
+      private
+
+      def build_ticker(pair, response)
         Data::Ticker.new(
-          :Zaif, swap_cms(@type), @currency,
-          last: @data['last'].to_s,
-          ask: @data['ask'].to_s, bid: @data['bid'].to_s,
-          high: @data['high'].to_s, low: @data['low'].to_s,
-          volume: @data['volume'],
+          :Zaif, swap_cms(pair[:type]).upcase, pair[:currency].upcase,
+          last: response['last'].to_s,
+          ask: response['ask'].to_s, bid: response['bid'].to_s,
+          high: response['high'].to_s, low: response['low'].to_s,
+          volume: response['volume'],
           timestamp: Time.now.to_i
         )
       end
 
-      def uri
-        options = { type: @type.downcase, currency: @currency.downcase }
-        uri = format(self.class.const_get(:ENDPOINT), options)
-        URI(uri)
-      end
-
       def swap_cms(type)
-        return 'ERC20.CMS' if type == :CMS
-        return :CMS if type == 'ERC20.CMS'
+        return 'erc20.cms' if type == 'cms'
+        return 'cms' if type == 'erc20.cms'
         type
       end
     end

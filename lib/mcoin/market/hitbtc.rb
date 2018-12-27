@@ -8,15 +8,17 @@ module Mcoin
     class Hitbtc < Base
       ENDPOINT = 'https://api.hitbtc.com/api/2/public/ticker/%<type>s%<currency>s'
 
-      def to_ticker
+      private
+
+      def build_ticker(pair, response)
         fetch
         Data::Ticker.new(
-          :Hitbtc, @type, @currency,
-          last: @data['last'],
-          ask:  @data['ask'],  bid: @data['bid'],
-          high: @data['high'], low: @data['low'],
-          volume: @data['volume'],
-          timestamp: Time.parse(@data['timestamp']).to_f
+          :Hitbtc, pair[:type], pair[:currency],
+          last: response['last'],
+          ask:  response['ask'],  bid: response['bid'],
+          high: response['high'], low: response['low'],
+          volume: response['volume'],
+          timestamp: Time.parse(response['timestamp']).to_f
         )
       end
     end

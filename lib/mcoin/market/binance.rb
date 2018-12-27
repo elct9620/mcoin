@@ -6,14 +6,15 @@ module Mcoin
     class Binance < Base
       ENDPOINT = 'https://api.binance.com/api/v1/ticker/24hr?symbol=%<type>s%<currency>s'
 
-      def to_ticker
-        fetch
+      private
+
+      def build_ticker(pair, response)
         Data::Ticker.new(
-          :Binance, @type, @currency,
-          last: @data['lastPrice'],
-          ask:  @data['askPrice'], bid:  @data['bidPrice'],
-          low:  @data['lowPrice'], high: @data['highPrice'],
-          volume: @data['volume'],
+          :Binance, pair[:type], pair[:currency],
+          last: response['lastPrice'],
+          ask:  response['askPrice'], bid:  response['bidPrice'],
+          low:  response['lowPrice'], high: response['highPrice'],
+          volume: response['volume'],
           timestamp: Time.now.to_i
         )
       end

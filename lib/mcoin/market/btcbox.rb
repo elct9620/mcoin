@@ -6,22 +6,21 @@ module Mcoin
     class Btcbox < Base
       ENDPOINT = 'https://www.btcbox.co.jp/api/v1/ticker?coin=%<type>s'
 
-      def to_ticker
-        fetch
-        Data::Ticker.new(
-          :Btcbox, @type, 'JPY',
-          last: @data['last'],
-          ask:  @data['sell'], bid:  @data['buy'],
-          low:  @data['low'],  high: @data['high'],
-          volume:    @data['vol'],
-          timestamp: Time.now.utc.to_i
-        )
+      def watch(type, currency)
+        @pairs.add({ type: type.to_s.downcase, currency: currency.to_s.downcase })
       end
 
-      def uri
-        options = { type: @type.downcase }
-        uri     = format(self.class.const_get(:ENDPOINT), options)
-        URI(uri)
+      private
+
+      def build_ticker(pair, response)
+        Data::Ticker.new(
+          :Btcbox, pair[:type].upcase, 'JPY',
+          last: response['last'],
+          ask:  response['sell'], bid:  response['buy'],
+          low:  response['low'],  high: response['high'],
+          volume:    response['vol'],
+          timestamp: Time.now.utc.to_i
+        )
       end
     end
   end

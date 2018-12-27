@@ -8,15 +8,16 @@ module Mcoin
     class Bitflyer < Base
       ENDPOINT = 'https://api.bitflyer.jp/v1/getticker?product_code=%<type>s_%<currency>s'
 
-      def to_ticker
-        fetch
+      private
+
+      def build_ticker(pair, response)
         Data::Ticker.new(
-          :Bitflyer, @type, @currency,
-          last: @data['ltp'].to_s,
-          ask: @data['best_ask'].to_s, bid: @data['best_bid'].to_s,
-          low: @data['best_bid'].to_s, high: @data['best_ask'].to_s,
-          volume: @data['volume'], # Trading volume in 24 hours
-          timestamp: Time.parse(@data['timestamp']).to_f
+          :Bitflyer, pair[:type], pair[:currency],
+          last: response['ltp'].to_s,
+          ask: response['best_ask'].to_s, bid: response['best_bid'].to_s,
+          low: response['best_bid'].to_s, high: response['best_ask'].to_s,
+          volume: response['volume'], # Trading volume in 24 hours
+          timestamp: Time.parse(response['timestamp']).to_f
         )
       end
     end

@@ -6,16 +6,21 @@ module Mcoin
     class Bitstamp < Base
       ENDPOINT = 'https://www.bitstamp.net/api/v2/ticker/%<type>s%<currency>s/'
 
-      def to_ticker
-        fetch
+      def watch(type, currency)
+        @pairs.add({ type: type.to_s.downcase, currency: currency.to_s.downcase })
+      end
+
+      private
+
+      def build_ticker(pair, response)
         Data::Ticker.new(
           :Bitstamp,
-          @type, @currency,
-          last: @data['last'],
-          ask: @data['ask'], bid: @data['bid'],
-          low: @data['low'], high: @data['high'],
-          volume: @data['volume'],
-          timestamp: @data['timestamp']
+          pair[:type].upcase, pair[:currency].upcase,
+          last: response['last'],
+          ask: response['ask'], bid: response['bid'],
+          low: response['low'], high: response['high'],
+          volume: response['volume'],
+          timestamp: response['timestamp']
         )
       end
     end

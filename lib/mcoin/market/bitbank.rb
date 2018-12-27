@@ -6,16 +6,17 @@ module Mcoin
     class Bitbank < Base
       ENDPOINT = 'https://public.bitbank.cc/%<type>s_%<currency>s/ticker'
 
-      def initialize(type, currency)
-        type = swap_bch(type)
-        super
+      def watch(type, currency)
+        type = swap_bch(type.to_s.downcase)
+        @pairs.add({ type: type, currency: currency.to_s.downcase })
       end
 
-      def to_ticker
-        fetch
-        response = @data['data']
+      private
+
+      def build_ticker(pair, response)
+        response = response['data']
         Data::Ticker.new(
-          :Bitbank, swap_bch(@type), @currency,
+          :Bitbank, swap_bch(pair[:type]).upcase, pair[:currency].upcase,
           last: response['last'],
           ask:  response['sell'], bid:  response['buy'],
           low:  response['low'],  high: response['high'],
@@ -25,15 +26,9 @@ module Mcoin
       end
 
       def swap_bch(type)
-        return :BCC if type == :BCH
-        return :BCH if type == :BCC
+        return 'bcc' if type == 'bch'
+        return 'bch' if type == 'bcc'
         type
-      end
-
-      def uri
-        options = { type: @type.downcase, currency: @currency.downcase }
-        uri = format(self.class.const_get(:ENDPOINT), options)
-        URI(uri)
       end
     end
   end

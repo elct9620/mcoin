@@ -7,34 +7,31 @@ module Mcoin
       # rubocop:disable Metrics/LineLength
       ENDPOINT = 'https://api.kraken.com/0/public/Ticker?pair=%<type>s%<currency>s'
 
-      def initialize(type, currency)
-        type = swap_btc(type)
+      def watch(type, currency)
+        type = swap_btc(type.to_s.upcase)
         super
       end
 
-      def to_ticker
-        fetch
+      private
+
+      def build_ticker(pair, response)
+        return if response['result'].nil?
+
+        response = response.dig('result', "X#{pair[:type]}Z#{pair[:currency]}")
         Data::Ticker.new(
           :Kraken,
-          swap_btc(@type), @currency,
-          last: @data['c'][0],
-          ask: @data['a'][0], bid: @data['b'][0],
-          low: @data['l'][1], high: @data['h'][1],
-          volume: @data['v'][1],
+          swap_btc(pair[:type]), pair[:currency],
+          last: response['c'][0],
+          ask: response['a'][0], bid: response['b'][0],
+          low: response['l'][1], high: response['h'][1],
+          volume: response['v'][1],
           timestamp: Time.now.to_i
         )
       end
 
-      def fetch
-        super
-        return self if @data['result'].nil?
-        @data = @data.dig('result', "X#{@type}Z#{@currency}")
-        self
-      end
-
       def swap_btc(type)
-        return :BTC if type == :XBT
-        return :XBT if type == :BTC
+        return 'BTC' if type == 'XBT'
+        return 'XBT' if type == 'BTC'
         type
       end
     end
