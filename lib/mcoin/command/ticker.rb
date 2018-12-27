@@ -24,7 +24,7 @@ module Mcoin
       end
 
       def save
-        database.save(markets.map(&:to_ticker).map(&:to_influx))
+        database.save(markets.map(&:to_ticker).flatten.map(&:to_influx))
       end
 
       def markets
