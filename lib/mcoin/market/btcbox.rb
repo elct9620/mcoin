@@ -16,9 +16,9 @@ module Mcoin
         Data::Ticker.new(
           :Btcbox, pair[:type].upcase, 'JPY',
           last: response['last'],
-          ask:  response['sell'], bid:  response['buy'],
-          low:  response['low'],  high: response['high'],
-          volume:    response['vol'],
+          ask: response['sell'], bid:  response['buy'],
+          low: response['low'],  high: response['high'],
+          volume: response['vol'],
           timestamp: Time.now.utc.to_i
         )
       end

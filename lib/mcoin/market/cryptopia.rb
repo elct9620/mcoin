@@ -8,12 +8,13 @@ module Mcoin
 
       private
 
-      def build_ticker(pair, response)
+      # TODO: Resolve Metrics/AbcSize
+      def build_ticker(pair, response) # rubocop:disable Metrics/AbcSize
         response = response['Data']
         Data::Ticker.new(
           :Cryptopia, pair[:type], pair[:currency],
           last: response['LastPrice'].to_s,
-          ask:  response['AskPrice'].to_s,  bid: response['BidPrice'].to_s,
+          ask: response['AskPrice'].to_s, bid: response['BidPrice'].to_s,
           high: response['High'].to_s, low: response['Low'].to_s,
           volume: response['Volume'],
           timestamp: Time.now.utc.to_i

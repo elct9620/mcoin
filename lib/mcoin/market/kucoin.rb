@@ -8,13 +8,14 @@ module Mcoin
 
       private
 
-      def build_ticker(pair, response)
+      # TODO: Resolve Metrics/AbcSize
+      def build_ticker(pair, response) # rubocop:disable Metrics/AbcSize
         response = response['data']
         Data::Ticker.new(
           :Kucoin, pair[:type], pair[:currency],
           last: response['lastDealPrice'].to_s,
-          ask:  response['sell'].to_s, bid:  response['buy'].to_s,
-          low:  response['low'].to_s,  high: response['high'].to_s,
+          ask: response['sell'].to_s, bid:  response['buy'].to_s,
+          low: response['low'].to_s,  high: response['high'].to_s,
           volume: response['vol'].to_s,
           timestamp: response['datetime'] / 1000.to_f
         )

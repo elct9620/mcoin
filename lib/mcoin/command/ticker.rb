@@ -14,6 +14,7 @@ module Mcoin
 
       def execute
         raise OptionParser::MissingArgument, :market if option.market.nil?
+
         print
         save if save?
       end

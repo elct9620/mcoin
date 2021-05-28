@@ -16,6 +16,8 @@ module Mcoin
         @pairs = Set.new
         @results = []
         @retries = 0
+        @http = Net::HTTP.new(uri.host, uri.port)
+        @http.use_ssl = ssl?
       end
 
       def watch(type, currency)
@@ -26,18 +28,19 @@ module Mcoin
         self.class.name.split('::').last
       end
 
-      def fetch
+      # TODO: Send request in sequence to avoid Net::HTTPBadResponse
+      def fetch # rubocop:disable Metrics/MethodLength
         @results = []
-        establish_connection do |http|
-          @pairs.each do |pair|
-            uri = URI(format(self.class.const_get(:ENDPOINT), pair))
-            request = Net::HTTP::Get.new(uri)
-            @results << [pair, JSON.parse(http.request(request)&.body)]
-          end
+        @http.start unless @http.started?
+        @pairs.each do |pair|
+          uri = URI(format(self.class.const_get(:ENDPOINT), pair))
+          request = Net::HTTP::Get.new(uri)
+          @results << [pair, JSON.parse(@http.request(request)&.body)]
         end
         self
       rescue JSON::ParserError
         return self if @retries >= 3
+
         @retries += 1
         retry
       end
@@ -48,12 +51,12 @@ module Mcoin
         end
       end
 
-      def establish_connection(&block)
-        @base_uri ||= URI(format(self.class.const_get(:ENDPOINT), type: '', currency: ''))
-        use_ssl = @base_uri.scheme == 'https'
-        Net::HTTP.start(@base_uri.host, @base_uri.port, use_ssl: use_ssl) do |http|
-          yield http
-        end
+      def uri
+        @uri ||= URI(format(self.class.const_get(:ENDPOINT), type: '', currency: ''))
+      end
+
+      def ssl?
+        uri.scheme == 'https'
       end
 
       private

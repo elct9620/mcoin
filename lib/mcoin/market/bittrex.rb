@@ -15,14 +15,15 @@ module Mcoin
 
       private
 
-      def build_ticker(pair, response)
+      # TODO: Resolve Metrics/AbcSize
+      def build_ticker(pair, response) # rubocop:disable Metrics/AbcSize
         response = response['result'][0]
         Data::Ticker.new(
           :Bittrex, swap_bch(pair[:type]), pair[:currency],
           last: response['Last'].to_s,
-          ask:  response['Ask'].to_s,  bid:  response['Bid'].to_s,
-          low:  response['Low'].to_s,  high: response['High'].to_s,
-          volume:    response['Volume'],
+          ask: response['Ask'].to_s,  bid:  response['Bid'].to_s,
+          low: response['Low'].to_s,  high: response['High'].to_s,
+          volume: response['Volume'],
           timestamp: Time.parse(response['TimeStamp']).to_f
         )
       end
@@ -30,6 +31,7 @@ module Mcoin
       def swap_bch(type)
         return 'BCC' if type == 'BCH'
         return 'BCH' if type == 'BCC'
+
         type
       end
     end

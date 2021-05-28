@@ -10,7 +10,7 @@ module Mcoin
         end.map(&:join).map(&:value)
       end
 
-      def async(array, method, &block)
+      def async(array, method)
         array.each do |item|
           Thread.new { yield item.send(method) }
         end

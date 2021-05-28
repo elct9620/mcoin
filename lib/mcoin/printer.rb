@@ -20,6 +20,7 @@ module Mcoin
 
     def build
       return if @rows.empty?
+
       build_header
       build_rows
     end
@@ -43,7 +44,7 @@ module Mcoin
     end
 
     def column_widths
-      @widths ||= columns.map do |column|
+      @column_widths ||= columns.map do |column|
         [@rows.map(&column).map(&:size).max, column.size].max
       end
     end

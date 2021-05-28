@@ -15,7 +15,7 @@ module Mcoin
         Data::Ticker.new(
           :Hitbtc, pair[:type], pair[:currency],
           last: response['last'],
-          ask:  response['ask'],  bid: response['bid'],
+          ask: response['ask'], bid: response['bid'],
           high: response['high'], low: response['low'],
           volume: response['volume'],
           timestamp: Time.parse(response['timestamp']).to_f

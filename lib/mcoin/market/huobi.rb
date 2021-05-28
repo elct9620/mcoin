@@ -12,13 +12,14 @@ module Mcoin
 
       private
 
-      def build_ticker(pair, response)
+      # TODO: Resolve Metrics/AbcSize
+      def build_ticker(pair, response) # rubocop:disable Metrics/AbcSize
         response = response['tick']
         Data::Ticker.new(
           :Huobi, pair[:type].upcase, pair[:currency].upcase,
           last: response['close'].to_s,
-          ask:  response['ask'][0].to_s, bid:  response['bid'][0].to_s,
-          low:  response['low'].to_s, high: response['high'].to_s,
+          ask: response['ask'][0].to_s, bid:  response['bid'][0].to_s,
+          low: response['low'].to_s, high: response['high'].to_s,
           volume: response['vol'],
           timestamp: Time.now.utc.to_i
         )

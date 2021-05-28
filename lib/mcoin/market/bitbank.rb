@@ -18,8 +18,8 @@ module Mcoin
         Data::Ticker.new(
           :Bitbank, swap_bch(pair[:type]).upcase, pair[:currency].upcase,
           last: response['last'],
-          ask:  response['sell'], bid:  response['buy'],
-          low:  response['low'],  high: response['high'],
+          ask: response['sell'], bid:  response['buy'],
+          low: response['low'],  high: response['high'],
           volume: response['vol'],
           timestamp: response['timestamp'].to_f / 1000
         )
@@ -28,6 +28,7 @@ module Mcoin
       def swap_bch(type)
         return 'bcc' if type == 'bch'
         return 'bch' if type == 'bcc'
+
         type
       end
     end

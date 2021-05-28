@@ -4,7 +4,6 @@ module Mcoin
   module Market
     # :nodoc:
     class Kraken < Base
-      # rubocop:disable Metrics/LineLength
       ENDPOINT = 'https://api.kraken.com/0/public/Ticker?pair=%<type>s%<currency>s'
 
       def watch(type, currency)
@@ -14,7 +13,8 @@ module Mcoin
 
       private
 
-      def build_ticker(pair, response)
+      # TODO: Resolve Metrics/AbcSize, Metrics/MethodLength
+      def build_ticker(pair, response) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
         return if response['result'].nil?
 
         response = response.dig('result', "X#{pair[:type]}Z#{pair[:currency]}")
@@ -32,6 +32,7 @@ module Mcoin
       def swap_btc(type)
         return 'BTC' if type == 'XBT'
         return 'XBT' if type == 'BTC'
+
         type
       end
     end

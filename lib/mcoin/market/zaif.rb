@@ -13,7 +13,8 @@ module Mcoin
 
       private
 
-      def build_ticker(pair, response)
+      # TODO: Resolve Metrics/AbcSize
+      def build_ticker(pair, response) # rubocop:disable Metrics/AbcSize
         Data::Ticker.new(
           :Zaif, swap_cms(pair[:type]).upcase, pair[:currency].upcase,
           last: response['last'].to_s,
@@ -27,6 +28,7 @@ module Mcoin
       def swap_cms(type)
         return 'erc20.cms' if type == 'cms'
         return 'cms' if type == 'erc20.cms'
+
         type
       end
     end

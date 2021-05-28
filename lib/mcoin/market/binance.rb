@@ -12,8 +12,8 @@ module Mcoin
         Data::Ticker.new(
           :Binance, pair[:type], pair[:currency],
           last: response['lastPrice'],
-          ask:  response['askPrice'], bid:  response['bidPrice'],
-          low:  response['lowPrice'], high: response['highPrice'],
+          ask: response['askPrice'], bid:  response['bidPrice'],
+          low: response['lowPrice'], high: response['highPrice'],
           volume: response['volume'],
           timestamp: Time.now.to_i
         )

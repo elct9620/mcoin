@@ -9,6 +9,7 @@ module Mcoin
 
         def description(description = nil)
           return @description if description.nil?
+
           @description = description
         end
 

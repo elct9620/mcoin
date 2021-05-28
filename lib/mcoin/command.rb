@@ -23,6 +23,7 @@ module Mcoin
       def pick
         command = ARGV.first&.capitalize
         return Common unless commands.include?(command&.to_sym)
+
         const_get(command)
       end
 

@@ -17,8 +17,8 @@ module Mcoin
         Data::Ticker.new(
           :Okex, pair[:type].upcase, pair[:currency].upcase,
           last: response['last'],
-          ask:  response['sell'], bid:  response['buy'],
-          low:  response['low'],  high: response['high'],
+          ask: response['sell'], bid:  response['buy'],
+          low: response['low'],  high: response['high'],
           volume: response['vol'],
           timestamp: response['date'].to_i
         )
