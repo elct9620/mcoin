@@ -2,11 +2,20 @@
 
 module Mcoin
   module Data
-    # :nodoc:
+    # The market information struct
+    #
+    # @since 0.7.0
     class Ticker
+      # @since 0.7.0
       attr_reader :market, :type, :currency
+
+      # @since 0.7.0
       attr_accessor :last, :ask, :bid, :low, :high, :volume, :timestamp
 
+      # @param [String|Symbol] market
+      # @param [String|Symbol] crypto type
+      # @param [String|Symbol] currency
+      # @param [Hash] market data
       def initialize(market, type, currency, data = {})
         @market = market
         @type = type
@@ -16,10 +25,12 @@ module Mcoin
         end
       end
 
+      # @return [Time] the timestamp object
       def time
         Time.at(timestamp.to_i).to_s
       end
 
+      # @deprecated will refactor to Influx adapter
       def to_influx
         tags = { type: @type, currency: @currency, market: @market }
         values = {
@@ -34,6 +45,7 @@ module Mcoin
 
       private
 
+      # @deprecated will refactor to Influx adapter
       def influx_time
         (timestamp.to_f * (10**9)).to_i.to_s
       end
