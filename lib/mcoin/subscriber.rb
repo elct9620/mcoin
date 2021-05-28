@@ -15,7 +15,7 @@ module Mcoin
     def initialize(pairs = nil, markets = Market.available)
       @pairs = pairs_from(pairs)
       @markets = markets_from(markets)
-      @running = true
+      @running = false
     end
 
     # Start subscribe
@@ -26,7 +26,9 @@ module Mcoin
     def start(interval = 1, &block)
       @running = true
 
-      while running?
+      loop do
+        break if stopped?
+
         Parallel.async(@markets, :fetch) do |result|
           result.to_ticker.each(&block)
         end
