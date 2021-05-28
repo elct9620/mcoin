@@ -15,7 +15,6 @@ module Mcoin
       def initialize
         @pairs = Set.new
         @results = []
-        @retries = 0
         @http = Net::HTTP.new(uri.host, uri.port)
         @http.use_ssl = ssl?
       end
@@ -28,21 +27,18 @@ module Mcoin
         self.class.name.split('::').last
       end
 
-      # TODO: Send request in sequence to avoid Net::HTTPBadResponse
-      def fetch # rubocop:disable Metrics/MethodLength
+      def fetch
         @results = []
         @http.start unless @http.started?
         @pairs.each do |pair|
           uri = URI(format(self.class.const_get(:ENDPOINT), pair))
           request = Net::HTTP::Get.new(uri)
-          @results << [pair, JSON.parse(@http.request(request)&.body)]
+
+          with_retry Net::HTTPBadResponse, JSON::ParserError do
+            @results << [pair, JSON.parse(@http.request(request)&.body)]
+          end
         end
         self
-      rescue JSON::ParserError
-        return self if @retries >= 3
-
-        @retries += 1
-        retry
       end
 
       def to_ticker
@@ -57,6 +53,16 @@ module Mcoin
 
       def ssl?
         uri.scheme == 'https'
+      end
+
+      def with_retry(*exceptions, retries: 3)
+        count = 0
+        begin
+          yield
+        rescue *exceptions
+          count += 1
+          count >= retries ? raise : retry
+        end
       end
 
       private
