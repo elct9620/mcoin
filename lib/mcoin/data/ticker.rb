@@ -25,9 +25,9 @@ module Mcoin
         end
       end
 
-      # @return [Time] the timestamp object
-      def time
-        Time.at(timestamp.to_i).to_s
+      # @return [String] the timestamp object
+      def time(offset: '+00:00')
+        Time.at(timestamp.to_i, in: offset).to_s
       end
 
       # @deprecated will refactor to Influx adapter

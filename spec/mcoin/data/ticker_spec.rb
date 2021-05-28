@@ -18,6 +18,12 @@ RSpec.describe Mcoin::Data::Ticker do
   describe '#time' do
     subject { ticker.time }
 
-    it { is_expected.to eq('2021-05-28 23:16:00 +0800') }
+    it { is_expected.to eq('2021-05-28 15:16:00 +0000') }
+
+    context 'when offset is +08:00' do
+      subject { ticker.time(offset: '+08:00') }
+
+      it { is_expected.to eq('2021-05-28 23:16:00 +0800') }
+    end
   end
 end
