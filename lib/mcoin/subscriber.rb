@@ -7,10 +7,11 @@ module Mcoin
     def initialize(pairs = nil, markets = Market.available)
       @pairs = pairs_from(pairs)
       @markets = markets_from(markets)
+      @running = true
     end
 
     def start(interval = 1, &block)
-      loop do
+      while running? do
         Parallel.async(@markets, :fetch) do |result|
           result.to_ticker.each do |ticker|
             yield ticker
@@ -19,6 +20,18 @@ module Mcoin
 
         sleep interval
       end
+    end
+
+    def stop
+      @running = false
+    end
+
+    def running?
+      @running == true
+    end
+
+    def stopped?
+      @running == false
     end
 
     protected
