@@ -1,3 +1,0 @@
-example_id                | status | run_time       |
-------------------------- | ------ | -------------- |
-./spec/mcoin_spec.rb[1:1] | passed | 0.0014 seconds |
